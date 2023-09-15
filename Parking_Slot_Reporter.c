@@ -5,39 +5,37 @@
 //* servo motor
 const byte servoPin = A0;
 
-//* IRs at entrance detection
-const int triggerPin = 5;
-const int echoPin = 6;
+//* sonar at entrance detection
+const int ultrasoundSignalPin = 7;
 
 
-//* ulterasound hos sleep for 100ms
-
+//* ultrasound sensor class
 class UltrasoundSensor{
     private:
         int signalPin;
-        const int thresholdDistance = 5;
-        long readDistanceCms(int signalPin)
+        const int thresholdDistance = 30;  //todo: important to initialize this value (in cms)
+        long readDistanceCms()
             {
-                pinMode(signalPin, OUTPUT);  // Clear the trigger
-                digitalWrite(signalPin, LOW);
+                pinMode(this->signalPin, OUTPUT);  // Clear the trigger
+                digitalWrite(this->signalPin, LOW);
                 delayMicroseconds(2);
                 // Sets the trigger pin to HIGH state for 10 microseconds
-                digitalWrite(signalPin, HIGH);
+                digitalWrite(this->signalPin, HIGH);
                 delayMicroseconds(10);
-                digitalWrite(signalPin, LOW);
-                pinMode(signalPin, INPUT);
+                digitalWrite(this->signalPin, LOW);
+                pinMode(this->signalPin, INPUT);
                 // Reads the echo pin, and returns the sound wave travel time in cm
-                return 0.01723 * pulseIn(signalPin, HIGH);
+                return 0.01723 * pulseIn(this->signalPin, HIGH);
             } 
 
     public:
-        void UltrasoundSensor(int signalPin)
+        UltrasoundSensor(int signalPin)
         {
-            this.signalPin = signalPin;
+            this->signalPin = signalPin;
         }
         bool near()
         {
-            if(this.thresholdDistance > this.readDistanceCms())
+            if(this->thresholdDistance > int(this->readDistanceCms()))
             {
                 return true;
             }
@@ -46,9 +44,14 @@ class UltrasoundSensor{
                 return false;
             }
         }
+        //**** not needed start *******************************************
+        float getDistance(){
+            return this->readDistanceCms();
+        }
+        
         bool far()
         {
-            if(this.thresholdDistance <= this.readDistanceCms())
+            if(this->thresholdDistance <= int(this->readDistanceCms()))
             {
                 return true;
             }
@@ -57,15 +60,28 @@ class UltrasoundSensor{
                 return false;
             }
         }
+        // ***** not required end ***************************************
 };
+
+//* ultrasound sensor declaration
+UltrasoundSensor ultrasound(ultrasoundSignalPin); 
+
+// ultrasound sensor declaration
 //* Setup
 void setup()
 {
     // todo: declaring pin mode
+    Serial.begin(9600); //**** Debug process **************************************************
 }
 
 //* loop
 void loop()
 {
+    //**** debug purpose ********************************
+    Serial.print("distance in cms: ");
+    Serial.println(ultrasound.getDistance());
+    Serial.print("near: ");
+    Serial.println(ultrasound.near());
 
+    //**** debug purpose ******************************
 }
