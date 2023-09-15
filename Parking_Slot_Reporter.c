@@ -44,23 +44,6 @@ class UltrasoundSensor{
                 return false;
             }
         }
-        //**** not needed start *******************************************
-        float getDistance(){
-            return this->readDistanceCms();
-        }
-        
-        bool far()
-        {
-            if(this->thresholdDistance <= int(this->readDistanceCms()))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        // ***** not required end ***************************************
 };
 
 //* ultrasound sensor declaration
@@ -71,17 +54,10 @@ UltrasoundSensor ultrasound(ultrasoundSignalPin);
 void setup()
 {
     // todo: declaring pin mode
-    Serial.begin(9600); //**** Debug process **************************************************
 }
 
 //* loop
 void loop()
 {
-    //**** debug purpose ********************************
-    Serial.print("distance in cms: ");
-    Serial.println(ultrasound.getDistance());
-    Serial.print("near: ");
-    Serial.println(ultrasound.near());
-
-    //**** debug purpose ******************************
+    
 }
