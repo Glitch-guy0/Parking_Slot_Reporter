@@ -3,7 +3,7 @@
  * continuously checks the sensors to determine if all slots are filled, lighting up the red LED if
  * they are.
  */
- int ir[4] = {6,7,8,9};
+ int ir[4] = {6,14,8,15};
  int ledr[4] = {2,3,4,5};
  int ledg[4] = {10, 11, 12, 13};
  int masterRedLedPin = 1;
