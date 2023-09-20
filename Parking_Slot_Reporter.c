@@ -1,8 +1,12 @@
 
- int ir[4] = {6,14,8,15};
- int ledr[4] = {2,3,4,5};
- int ledg[4] = {10, 11, 12, 13};
+ 
  int masterRedLedPin = 1;
+ int ledr[4] = {2,3,4,5};
+ const int servoPin = 6;
+ const int ultrasoundSignalPin = 7;
+ int ir[4] = {8,9,10,11};
+ //int ledg[4] = {10, 11, 12, 13}; // no need for green indication
+
 
 #include <Servo.h>
 
@@ -11,7 +15,7 @@ Servo gateServo;
 
 
 //* servo motor
-const int servoPin = 9;
+
 int angle = 0;
 
 // initial gate position 
@@ -43,7 +47,7 @@ void checkGate(bool isCar)
 }
 
 //* sonar at entrance detection
-const int ultrasoundSignalPin = 7;
+
 
 
 //* ultrasound sensor class
@@ -98,7 +102,6 @@ void setup()
 
   for (int i = 0; i < 4; i++) {
     pinMode(ledr[i], OUTPUT);
-    pinMode(ledg[i], OUTPUT);
   }
   pinMode(masterRedLedPin, OUTPUT);
 
@@ -113,11 +116,9 @@ void loop()
   for (int i = 0; i < 4; i++) {
     if (digitalRead(ir[i]) == HIGH) {
       digitalWrite(ledr[i], HIGH);
-      digitalWrite(ledg[i], LOW);
       filledSlots++;
     } else {
       digitalWrite(ledr[i], LOW);
-      digitalWrite(ledg[i], HIGH);
     }
   }
 
